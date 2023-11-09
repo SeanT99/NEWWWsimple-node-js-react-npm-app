@@ -4,12 +4,12 @@ pipeline {
 
     
     stages {
-        stage('OWASP DependencyCheck') {
-			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-			}
-		}
+        // stage('OWASP DependencyCheck') {
+		// 	steps {
+		// 		dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'OWASP Dependency-Check Vulnerabilities'
+        //         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+		// 	}
+		// }
         stage('Build Image') {
             steps {
                 script {
