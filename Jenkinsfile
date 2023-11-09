@@ -10,16 +10,30 @@ pipeline {
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 			}
 		}
-        stage('Build') {
+        stage('Build Image') {
             steps {
-                sh 'npm install'
+                script {
+                    // Print the current working directory to verify the path
+                    // echo "Current working directory: ${pwd()}"
+                    
+                    // Build the Docker image from the Dockerfile in the current directory
+                    docker.build("secure-app", ".")
+                }
             }
         }
-        stage('Test') { 
+        stage('Start Container') {
             steps {
-                sh './jenkins/scripts/test.sh' 
+                // Run the Docker container
+                sh "docker run --name secure-app -dp 127.0.0.1:3000:3000 secure-app"
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+
+                // Clean up created images and app
+                sh "docker stop secure-app"
+                sh "docker rm secure-app"
+                sh "docker image rm secure-app"
             }
         }
+        
     }
 }
 
