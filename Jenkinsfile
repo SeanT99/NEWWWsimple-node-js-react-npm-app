@@ -27,6 +27,8 @@ pipeline {
                 sh "docker run --name secure-app -dp 127.0.0.1:3000:3000 secure-app"
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
 
+                sh "docker exec secure-app ls app"
+
                 // Clean up created images and app
                 sh "docker stop secure-app"
                 sh "docker rm secure-app"
